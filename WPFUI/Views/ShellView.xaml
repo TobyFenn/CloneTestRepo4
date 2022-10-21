@@ -1,0 +1,465 @@
+﻿<Window x:Class="WPFUI.Views.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:cal="http://www.caliburnproject.org"
+        xmlns:local="clr-namespace:WPFUI.Views"
+        mc:Ignorable="d"
+        Title="ShellView" Height="615" Width="520">
+    
+    <!--<Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="20" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="20" />
+        </Grid.RowDefinitions>
+        --><!--Row 1--><!--
+        <TextBlock Text="{Binding Path=FullName, Mode=OneWay}" Grid.Row="1"
+                   Grid.Column="1" Grid.ColumnSpan="2"></TextBlock> 
+        
+        --><!--Row 2--><!--
+        <TextBox MinWidth="100" Grid.Row="2" Grid.Column="1" x:Name="FirstName"></TextBox>
+        <TextBox MinWidth="100" Grid.Row="2" Grid.Column="2" x:Name="LastName"></TextBox>
+        
+        --><!--Row 3--><!--
+        <ComboBox Grid.Row="3" Grid.Column="1" x:Name="People"
+                  SelectedItem="{Binding Path=SelectedPerson, Mode=OneWayToSource}"
+                  DisplayMemberPath="FirstName" />
+        <TextBlock Grid.Row="3" Grid.Column="2" x:Name="SelectedPerson_LastName" />
+        
+        --><!--Row 4--><!--
+        <Button x:Name="ClearText" Grid.Row="4" Grid.Column="1">Clear Data</Button>
+        
+        --><!--Row 5--><!--
+        <Button x:Name="LoadPageOne" Grid.Row="5" Grid.Column="1">Load First Page</Button>
+        <Button x:Name="LoadPageTwo" Grid.Row="5" Grid.Column="2">Load Second Page</Button>
+
+        --><!-- Row 6 --><!--
+        <ContentControl Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="5"
+                        x:Name="ActiveItem" />
+    </Grid>-->
+
+    <!--Styles-->
+    <Window.Resources>
+        <Style TargetType="Button"
+               x:Key="CopyButton">
+            <Setter Property="Background" Value="GhostWhite"/>
+            <Setter Property="Width" Value="20"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="TextBox"
+               x:Key="CurrentPos">
+            <Setter Property="IsEnabled" Value="False"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Width" Value="114"/>
+        </Style>
+        <!--git test change-->
+        <Style TargetType="TextBox"
+               x:Key="InitialPos">
+            <Setter Property="Width" Value="114"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="151*"/>
+            <ColumnDefinition Width="111*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- main stack -->
+        <StackPanel Grid.ColumnSpan="2" Margin="10,10,10,0">
+
+            <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+
+                <StackPanel x:Name="spNics" Orientation="Horizontal" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                    <Label Content="Broadcast to " Margin="0" Padding="0" FontSize="14" VerticalAlignment="Center"/>
+                    <TextBlock HorizontalAlignment="Center" FontSize="14" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Margin="0,0,5,0">
+                    <Hyperlink x:Name="HyperlinkText" NavigateUri="">
+                        <Hyperlink.Style>
+                            <Style TargetType="Hyperlink" BasedOn="{StaticResource {x:Type Hyperlink}}">
+                            <Setter Property="Foreground" Value="DeepSkyBlue"/>
+                            </Style>
+                        </Hyperlink.Style>
+                        <TextBlock Text="NIC(s):"/>
+                    </Hyperlink>
+                </TextBlock>
+                    <!--<Label Content="Output to NIC: " Style="/>-->
+                </StackPanel>
+            </ScrollViewer>
+            <Separator/>
+
+            <!-- Top Bar horizontal stack-->
+            <Grid Margin="0,0,0,0" HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="120"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Traj stack -->
+                <StackPanel>
+                    <Label>
+                        Trajectory Presets
+                    </Label>
+                    <ComboBox x:Name="TrajectoriesComboBox" Width="190" HorizontalAlignment="Left">
+
+                    </ComboBox>
+                </StackPanel>
+
+                <Button
+                    cal:Message.Attach="DeletePresetButton"
+                    Grid.Column="1"
+                    Height="22"
+                    Width="100" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="3,0,0,0">
+                    Delete preset
+                </Button>
+
+                <!-- Buttons bar grid-->
+                <Grid Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition MaxWidth="50"/>
+                        <ColumnDefinition MaxWidth="50"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Button x:Name="RunButton" Width="40" Height="40" Margin="0,0,3,0" FontSize="20" FontFamily="Calibri" FontWeight="Bold" Foreground="MediumSpringGreen" Background="White" Cursor="Hand" HorizontalAlignment="Center" Content="▶" Grid.Column="1" ToolTip="Run simulation">
+                        <Button.Effect>
+                            <DropShadowEffect Opacity="0.3" BlurRadius="10"/>
+                        </Button.Effect>
+                    </Button>
+                    <Button x:Name="PauseButton" Width="40" Height="40" Margin="0,0,5,0" FontSize="20" FontFamily="Calibri" FontWeight="Bold" Foreground="#FF03E8FF" Background="White" Cursor="Hand" HorizontalAlignment="Center" Content="❚❚" Visibility="Hidden">
+                        <Button.Effect>
+                            <DropShadowEffect Opacity="0.3" BlurRadius="10"/>
+                        </Button.Effect>
+                    </Button>
+                    <Button x:Name="StopButton" Width="40" Height="40" Margin="0,0,0,0" FontSize="20" FontFamily="Calibri" FontWeight="Bold" Foreground="#FFF95851" Background="White" Cursor="Hand" Content="■" HorizontalAlignment="Center" Grid.Column="1" Visibility="Hidden">
+                        <Button.Effect>
+                            <DropShadowEffect Opacity="0.3" BlurRadius="10"/>
+                        </Button.Effect>
+                    </Button>
+
+                </Grid>
+            </Grid>
+
+            <!-- Input / Output information grid-->
+            <Grid Margin="0,20,0,0" HorizontalAlignment="Center" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition Width="120"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition Height="0"/>
+                    <!-- climb angle-->
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition Height="0"/>
+                    <!-- ground speed -->
+                    <RowDefinition Height="0"/>
+                    <!-- ground course -->
+                </Grid.RowDefinitions>
+
+
+                <Button
+                    x:Name="CopyAllButton"
+                    ToolTip="Copy current positions to initial positions"
+                    Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="20" FontFamily="Segoe UI Black">
+                    ⤺
+                </Button>
+                <Button 
+                    x:Name="LatCopy"
+                    Grid.Column="2" Grid.Row="2" Style="{StaticResource CopyButton}">
+                    ←
+                </Button>
+                <Button 
+                    x:Name="LongCopy"
+                    Grid.Column="2" Grid.Row="3" Style="{StaticResource CopyButton}">
+                    ←
+                </Button>
+                <Button 
+                    x:Name="YawCopy"
+                    Grid.Column="2" Grid.Row="4" Style="{StaticResource CopyButton}">
+                    ←
+                </Button>
+                <Button 
+                    x:Name="PitchCopy"
+                    Grid.Column="2" Grid.Row="5" Style="{StaticResource CopyButton}">
+                    ←
+                </Button>
+                <Button 
+                    x:Name="RollCopy"
+                    Grid.Column="2" Grid.Row="6" Style="{StaticResource CopyButton}">
+                    ←
+                </Button>
+                <Button 
+                    x:Name="YawROCCopy"
+                    Grid.Column="2" Grid.Row="7" Style="{StaticResource CopyButton}">
+                    ←
+                </Button>
+                <Button 
+                    x:Name="PitchROCCopy"
+                    Grid.Column="2" Grid.Row="8" Style="{StaticResource CopyButton}">
+                    ←
+                </Button>
+                <Button 
+                    x:Name="RollROCCopy"
+                    Grid.Column="2" Grid.Row="9" Style="{StaticResource CopyButton}">
+                    ←
+                </Button>
+                <Button 
+                    x:Name="AltitudeCopy"
+                    Grid.Column="2" Grid.Row="10" Style="{StaticResource CopyButton}">
+                    ←
+                </Button>
+                <Button 
+                    x:Name="AirspeedCopy"
+                    Grid.Column="2" Grid.Row="11" Style="{StaticResource CopyButton}">
+                    ←
+                </Button>
+
+                <!-- Preset buttons -->
+                <TextBox  
+                    x:Name="PresetTextBox"
+                    Width="140"  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,5,5,5" Height="20" BorderBrush="#FFB3ACAB">
+                    <TextBox.Background>
+                        <SolidColorBrush Color="White" Opacity="0.5"/>
+                    </TextBox.Background>
+                </TextBox>
+
+                <TextBlock IsHitTestVisible="False" Text="Enter preset name" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0" Foreground="DarkGray">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Text, ElementName=PresetTextBox}" Value="">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                <Border
+                    x:Name="PresetNameBorder"
+                    BorderBrush="Red"
+                    BorderThickness="1"
+                    Width="140" Height="20" HorizontalAlignment="Left"
+                    Opacity="0"
+                    >
+                </Border>
+
+                <Border
+                    x:Name="PresetSuccessBorder"
+                    BorderBrush="LightGreen"
+                    BorderThickness="2"
+                    Width="140" Height="20" HorizontalAlignment="Left"
+                    Opacity="0"
+                    >
+                </Border>
+
+                <Button
+                    x:Name="InitialPositionSaveButton"
+                    Grid.Column="1" Width="114" Height="20" VerticalAlignment="Center" Margin="0" HorizontalAlignment="Center">
+                    Save as preset
+                </Button>
+                <Button
+                    x:Name="CurrentPositionSaveButton"
+                    Grid.Column="3" Width="114" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    Save as preset
+                </Button>
+
+                <Border
+                    x:Name="InitialPosBorder"
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Grid.RowSpan="12"
+                    BorderThickness="1"
+                    BorderBrush="LightSlateGray"
+                    Opacity="0"
+                    CornerRadius="3">
+                </Border>
+
+                <Border
+                    x:Name="CurrentPosBorder"
+                    Grid.Column="3"
+                    Grid.Row="1"
+                    Grid.RowSpan="12"
+                    BorderThickness="1"
+                    BorderBrush="LightSlateGray"
+                    Opacity="0"
+                    CornerRadius="3">
+                </Border>
+
+                <!-- Main grid elements -->
+                <Label Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    Initial Position
+                </Label>
+                <Label Grid.Column="3" Grid.Row="1" Margin="0" HorizontalAlignment="Center">
+                    Current Position
+                </Label>
+
+                <Label Content="Latitude (DD):" Grid.Column="0" Grid.Row="2"/>
+                <Label Content="Longitude (DD):" Grid.Column="0" Grid.Row="3"/>
+                <Label Content="Yaw (deg):" Grid.Column="0" Grid.Row="4"/>
+                <Label Content="Pitch (deg):" Grid.Column="0" Grid.Row="5"/>
+                <Label Content="Roll (deg):" Grid.Column="0" Grid.Row="6"/>
+                <Label Content="Yaw Rate of Change (deg/sec):" Grid.Column="0" Grid.Row="7"/>
+                <Label Content="Pitch Rate of Change (deg/sec):" Grid.Column="0" Grid.Row="8"/>
+                <Label Content="Roll Rate of Change (deg/sec):" Grid.Column="0" Grid.Row="9"/>
+                <Label Content="Altitude (ft):" Grid.Column="0" Grid.Row="10"/>
+                <Label Content="Airspeed:" Grid.Column="0" Grid.Row="11"/>
+
+                <TextBox x:Name="LatInputBox" Grid.Column="1" Grid.Row="2" Style="{StaticResource InitialPos}"/>
+                <TextBox x:Name="LongInputBox" Grid.Column="1" Grid.Row="3" Style="{StaticResource InitialPos}"/>
+                <TextBox x:Name="YawInputBox" Grid.Column="1" Grid.Row="4" Style="{StaticResource InitialPos}"/>
+                <TextBox x:Name="PitchInputBox" Grid.Column="1" Grid.Row="5" Style="{StaticResource InitialPos}"/>
+                <TextBox x:Name="RollInputBox" Grid.Column="1" Grid.Row="6" Style="{StaticResource InitialPos}"/>
+                <TextBox x:Name="YawROCInputBox" Grid.Column="1" Grid.Row="7" Style="{StaticResource InitialPos}"/>
+                <TextBox x:Name="PitchROCInputBox" Grid.Column="1" Grid.Row="8" Style="{StaticResource InitialPos}"/>
+                <TextBox x:Name="RollROCInputBox" Grid.Column="1" Grid.Row="9" Style="{StaticResource InitialPos}"/>
+                <TextBox x:Name="AltitudeInputBox" Grid.Column="1" Grid.Row="10" Style="{StaticResource InitialPos}"/>
+
+                <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="11" HorizontalAlignment="Center">
+                    <TextBox x:Name="AirspeedInputBox" Grid.Column="1" Grid.Row="10" VerticalAlignment="Center" Width="48" Margin="0,0,5,0"/>
+                    <ComboBox
+                        x:Name="AirspeedUnitsInputBox" VerticalAlignment="Center" Margin="5,0,0,0" SelectedIndex="0">
+                        <ComboBoxItem Content="m/s"/>
+                        <ComboBoxItem Content="mph"/>
+                        <ComboBoxItem Content="km/h"/>
+                        <ComboBoxItem Content="ft/s"/>
+                        <ComboBoxItem Content="knots"/>
+                    </ComboBox>
+                </StackPanel>
+
+                <!-- Hidden Values -->
+                <Label Content="Climb Angle:" Grid.Column="0" Grid.Row="13"/>
+                <TextBox x:Name="ClimbAngleInputBox" Grid.Column="1" Grid.Row="13" Style="{StaticResource InitialPos}"/>
+
+                <Label Content="X Velocity:" Grid.Column="0" Grid.Row="14"/>
+                <TextBox Visibility="Collapsed" x:Name="XInputBox" Grid.Column="1" Grid.Row="14" Style="{StaticResource InitialPos}"/>
+
+                <Label Content="Y Velocity:" Grid.Column="0" Grid.Row="15"/>
+                <TextBox Visibility="Collapsed" x:Name="YInputBox" Grid.Column="1" Grid.Row="15" Style="{StaticResource InitialPos}"/>
+
+                <Label Content="Z Velocity:" Grid.Column="0" Grid.Row="16"/>
+                <TextBox Visibility="Collapsed" x:Name="ZInputBox" Grid.Column="1" Grid.Row="16" Style="{StaticResource InitialPos}"/>
+
+                <Label Content="Ground Speed:" Grid.Column="0" Grid.Row="17"/>
+                <TextBox x:Name="GroundSpeedInputBox" Grid.Column="1" Grid.Row="17" Style="{StaticResource InitialPos}"/>
+
+                <Label Content="Ground Course:" Grid.Column="0" Grid.Row="18"/>
+                <TextBox x:Name="GroundCourseInputBox" Grid.Column="1" Grid.Row="18" Style="{StaticResource InitialPos}"/>
+
+
+                <!-- output labels -->
+                <TextBox x:Name="latOutputTextBox" Grid.Column="3" Grid.Row="2" Style="{StaticResource CurrentPos}"/>
+                <TextBox x:Name="longOutputTextBox" Grid.Column="3" Grid.Row="3" Style="{StaticResource CurrentPos}"/>
+                <TextBox x:Name="yawOutputTextBox" Grid.Column="3" Grid.Row="4" Style="{StaticResource CurrentPos}"/>
+                <TextBox x:Name="pitchOutputTextBox" Grid.Column="3" Grid.Row="5" Style="{StaticResource CurrentPos}"/>
+                <TextBox x:Name="rollOutputTextBox" Grid.Column="3" Grid.Row="6" Style="{StaticResource CurrentPos}"/>
+                <TextBox x:Name="yawROCOutputTextBox" Grid.Column="3" Grid.Row="7" Style="{StaticResource CurrentPos}"/>
+                <TextBox x:Name="pitchROCOutputTextBox" Grid.Column="3" Grid.Row="8" Style="{StaticResource CurrentPos}"/>
+                <TextBox x:Name="rollROCOutputTextBox" Grid.Column="3" Grid.Row="9" Style="{StaticResource CurrentPos}"/>
+                <TextBox x:Name="altitudeOutputTextBox" Grid.Column="3" Grid.Row="10" Style="{StaticResource CurrentPos}"/>
+                <TextBox x:Name="airspeedOutputTextBox" Grid.Column="3" Grid.Row="11" Style="{StaticResource CurrentPos}"/>
+                <TextBox x:Name="climbAngleOutputTextBox" Grid.Column="3" Grid.Row="13" Style="{StaticResource CurrentPos}"/>
+                <TextBox x:Name="XOutputTextBox" Grid.Column="3" Grid.Row="14" Style="{StaticResource CurrentPos}"/>
+                <TextBox x:Name="YOutputTextBox" Grid.Column="3" Grid.Row="15" Style="{StaticResource CurrentPos}"/>
+                <TextBox x:Name="ZOutputTextBox" Grid.Column="3" Grid.Row="16" Style="{StaticResource CurrentPos}"/>
+                <TextBox x:Name="groundSpeedOutputTextBox" Grid.Column="3" Grid.Row="17" Style="{StaticResource CurrentPos}"/>
+                <TextBox x:Name="groundCourseOutputTextBox" Grid.Column="3" Grid.Row="18" Style="{StaticResource CurrentPos}"/>
+
+            </Grid>
+            <!--Custom Timestamp-->
+            <Grid HorizontalAlignment="Center" Margin="0,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="160"/>
+                    <ColumnDefinition Width="26"/>
+                    <ColumnDefinition Width="160"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Border
+                    x:Name="CustomTimestampBorder"
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    Grid.ColumnSpan="4"
+                    Grid.RowSpan="2"
+                    BorderThickness="1"
+                    Visibility="Visible"
+                    BorderBrush="LightSlateGray"
+                    CornerRadius="3"
+                    >
+                </Border>
+
+                <CheckBox x:Name="CTSCheck" Grid.ColumnSpan="2" HorizontalAlignment="Left" Content="Use Custom Timestamp" Padding="0" VerticalAlignment="Center" Margin="10,3,0,0" />
+
+                <Border
+                    x:Name="InitialCTSBorder"
+                    BorderBrush="Red"
+                    Opacity="0"
+                    Width="142"
+                    Height="22"
+                    BorderThickness="1"
+                    Grid.Row="1" Grid.Column="1"/>
+
+                <Label x:Name="CTSLabel" Content="Custom Timestamp:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0,0,0" IsEnabled="False"/>
+
+                <TextBox x:Name="CTSInputBox" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="140" IsEnabled="False"/>
+                <TextBox x:Name="CTSOutputBox" Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Width="140" IsEnabled="False"/>
+
+
+
+                <Button 
+                    x:Name="CTSCopy"
+                    Grid.Column="2" Grid.Row="1" Style="{StaticResource CopyButton}"
+                    IsEnabled="False">
+                    ←
+                </Button>
+
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Window>
+
