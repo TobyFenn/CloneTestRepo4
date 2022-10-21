@@ -104,14 +104,6 @@
                 <StackPanel x:Name="spNics" Orientation="Horizontal" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                     <Label Content="Broadcast to " Margin="0" Padding="0" FontSize="14" VerticalAlignment="Center"/>
                     <TextBlock HorizontalAlignment="Center" FontSize="14" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Margin="0,0,5,0">
-                    <!--<Hyperlink x:Name="HyperlinkText" NavigateUri="">
-                        <Hyperlink.Style>
-                            <Style TargetType="Hyperlink" BasedOn="{StaticResource {x:Type Hyperlink}}">
-                            <Setter Property="Foreground" Value="DeepSkyBlue"/>
-                            </Style>
-                        </Hyperlink.Style>
-                        <TextBlock Text="NIC(s):"/>
-                    </Hyperlink>-->
                         
                     <Button Style="{StaticResource HyperlinkButton}" Focusable="False"
                         cal:Message.Attach="[Action HyperlinkText]">
@@ -142,6 +134,11 @@
                     <ComboBox x:Name="TrajectoriesComboBox" Width="190" HorizontalAlignment="Left">
 
                     </ComboBox>
+
+                    <!--<ComboBox Grid.Row="3" Grid.Column="1" x:Name="People"
+                  SelectedItem="{Binding Path=SelectedPerson, Mode=OneWayToSource}"
+                  DisplayMemberPath="FirstName" />-->
+
                 </StackPanel>
 
                 <Button

@@ -43,7 +43,7 @@ namespace WPFUI.ViewModels
         private const int updateRate_ms = 30;
         private double loopMillis = 0;
 
-        Coordinate aircraftPos;
+        CoordinateModel aircraftPos;
         Presets presets;
         Time time = new Time();
         Packets packets = new Packets();
@@ -162,7 +162,7 @@ namespace WPFUI.ViewModels
 		//	ActivateItemAsync(new SecondChildViewModel());
 		//}
 
-
+		//test
 
 		public void DeletePresetButton()
 		{

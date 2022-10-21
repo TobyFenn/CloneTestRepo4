@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace WPFUI
 {
-    internal class Coordinate
+    internal class CoordinateModel
     {
+
     }
 }

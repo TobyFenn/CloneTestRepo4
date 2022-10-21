@@ -82,6 +82,8 @@
     </Compile>
     <Compile Include="Calculations.cs" />
     <Compile Include="Coordinate.cs" />
+    <Compile Include="Models\CalculationsModel.cs" />
+    <Compile Include="Models\CoordinateModel.cs" />
     <Compile Include="Models\PersonModel.cs" />
     <Compile Include="Packets.cs" />
     <Compile Include="Presets.cs" />
