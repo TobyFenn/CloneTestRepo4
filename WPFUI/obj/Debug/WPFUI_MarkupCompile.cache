@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-C:\Git\MVVMDemos\CMDemo\WPFUI\obj\Debug\
+C:\Git\CaliburnDotNetSim\WPFUI\obj\Debug\
 WPFUI
 none
 false
 DEBUG;TRACE
-C:\Git\MVVMDemos\CMDemo\WPFUI\App.xaml
+C:\Git\CaliburnDotNetSim\WPFUI\App.xaml
 3-60038325
 
 19-548548941
-21-528311445
+21-1438656401
 Views\FirstChildView.xaml;Views\SecondChildView.xaml;Views\ShellView.xaml;
 
 False
