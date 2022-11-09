@@ -11,6 +11,7 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using System.Windows;
 using WPFUI.Models;
+using System.Windows.Documents;
 
 namespace WPFUI.ViewModels
 {
@@ -44,10 +45,10 @@ namespace WPFUI.ViewModels
         private double loopMillis = 0;
 
         CoordinateModel aircraftPos;
-        Presets presets;
-        Time time = new Time();
-        Packets packets = new Packets();
-        Calculations calculations = new Calculations();
+        PresetsModel presets;
+        TimeModel time = new TimeModel();
+        PacketsModel packets = new PacketsModel();
+        CalculationsModel calculations = new CalculationsModel();
         Stopwatch stopwatch = new Stopwatch();
         DispatcherTimer TimerUpdateUI = null;
 
@@ -66,105 +67,63 @@ namespace WPFUI.ViewModels
         private List<FrameworkElement> currentTextBoxes;
         static CancellationTokenSource cancelTokenSource;
         List<NetworkInterface> Interfaces = new List<NetworkInterface>();
-        List<CheckBox> interfaceCheckboxes = new List<CheckBox>();
+        public List<CheckBox> interfaceCheckboxes = new List<CheckBox>();
 
 		public ShellViewModel()
 		{
 
-		}
+            bool first = true;
+            foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
+            {
+                if (ni.OperationalStatus == OperationalStatus.Up && ni.SupportsMulticast && ni.GetIPProperties().GetIPv4Properties() != null)
+                {
+                    int id = ni.GetIPProperties().GetIPv4Properties().Index;
+                    if (NetworkInterface.LoopbackInterfaceIndex != id)
+                    {
+                        Interfaces.Add(ni);
 
-  //      public ShellViewModel()
-		//{
-		//	People.Add(new PersonModel { FirstName = "Toby", LastName = "Fenner" });
-		//	People.Add(new PersonModel { FirstName = "John", LastName = "Smith" });
-		//	People.Add(new PersonModel { FirstName = "Jane", LastName = "Doe" });
-		//}
+                        var cb = new CheckBox();
+                        cb.Content = ni.Name;
+                        cb.VerticalAlignment = VerticalAlignment.Center;
+                        if (first)
+                        {
+                            first = false;
+                            cb.Margin = new Thickness(0, 0, 0, 0);
+                        }
+                        else
+                        {
+                            cb.Margin = new Thickness(5, 0, 0, 0);
+                        }
+                        cb.IsChecked = true;
+                        cb.Click += Cb_Click;
+                        interfaceCheckboxes.Add(cb);
+/*                        spNics.Children.Add(cb);*/ //<-- stackpanel in shellview
+                    }
+                }
+            }
+         }
 
-		//private string _firstName = "Toby";
-  //      private string _lastName;
-  //      private BindableCollection<PersonModel> _people = new BindableCollection<PersonModel>();
-  //      private PersonModel _selectedPerson;
-  //      public string FirstName
-		//{
-		//	get
-		//	{
-		//		return _firstName;
-		//	}
-		//	set
-		//	{
-		//		_firstName = value;
-		//		NotifyOfPropertyChange(() => FirstName);
-  //              NotifyOfPropertyChange(() => FullName);
-  //          }
-		//}
+        private void Cb_Click(object sender, RoutedEventArgs e)
+        {
+            setInterfaces();
+        }
 
-		//public string LastName
-		//{
-		//	get
-		//	{
-		//		return _lastName;
-		//	}
-		//	set
-		//	{
-		//		_lastName = value;
-  //              NotifyOfPropertyChange(() => LastName);
-  //              NotifyOfPropertyChange(() => FullName);
-  //          }
-		//}
+        private void setInterfaces()
+        {
+            List<NetworkInterface> selInterfaces = new List<NetworkInterface>();
+            for (int i = 0; i < interfaceCheckboxes.Count; i++)
+            {
+                if (interfaceCheckboxes[i].IsChecked ?? false)
+                {
+                    selInterfaces.Add(Interfaces[i]);
+                }
+            }
 
-		//public string FullName
-		//{
-		//	get { return $"{ FirstName } { LastName }"; }
-		//}
+            PacketsModel.SetInterfaces(selInterfaces);
 
-		//public BindableCollection<PersonModel> People
-		//{
-		//	get { return _people; }
-		//	set { _people = value; }
-		//}
+        }
 
-		//public PersonModel SelectedPerson
-		//{
-		//	get { return _selectedPerson; }
-		//	set
-		//	{
-		//		_selectedPerson = value;
-		//		NotifyOfPropertyChange(() => SelectedPerson);
-		//	}
-		//}
-
-		//public bool CanClearText(string firstName, string lastName)
-		//{
-
-		//	if (String.IsNullOrWhiteSpace(firstName) && string.IsNullOrWhiteSpace(lastName))
-		//	{
-		//		return false;
-		//	}
-		//	else
-		//	{
-		//		return true;
-		//	}
-		//}
-
-		//public void ClearText(string firstName, string lastName)
-		//{
-		//	FirstName = "";
-		//	LastName = "";
-		//}
-
-		//public void LoadPageOne()
-		//{
-		//	ActivateItemAsync(new FirstChildViewModel());
-		//}
-
-		//public void LoadPageTwo()
-		//{
-		//	ActivateItemAsync(new SecondChildViewModel());
-		//}
-
-		//test
-
-		public void DeletePresetButton()
+        public void DeletePresetButton()
 		{
 
 

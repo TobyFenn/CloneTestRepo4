@@ -80,15 +80,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Calculations.cs" />
-    <Compile Include="Coordinate.cs" />
     <Compile Include="Models\CalculationsModel.cs" />
     <Compile Include="Models\CoordinateModel.cs" />
+    <Compile Include="Models\PacketsModel.cs" />
     <Compile Include="Models\PersonModel.cs" />
-    <Compile Include="Packets.cs" />
-    <Compile Include="Presets.cs" />
+    <Compile Include="Models\PresetsModel.cs" />
+    <Compile Include="Models\TimeModel.cs" />
     <Compile Include="SettingsManager.cs" />
-    <Compile Include="Time.cs" />
     <Compile Include="UserSettings.cs" />
     <Compile Include="ViewModels\FirstChildViewModel.cs" />
     <Compile Include="ViewModels\SecondChildViewModel.cs" />

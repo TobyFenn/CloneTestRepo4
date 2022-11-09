@@ -102,6 +102,9 @@
             <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
 
                 <StackPanel x:Name="spNics" Orientation="Horizontal" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+
+                    <ItemsControl x:Name="testItemsControl" ItemsSource="{Binding Path=interfaceCheckboxes}"/>
+
                     <Label Content="Broadcast to " Margin="0" Padding="0" FontSize="14" VerticalAlignment="Center"/>
                     <TextBlock HorizontalAlignment="Center" FontSize="14" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Margin="0,0,5,0">
                         
