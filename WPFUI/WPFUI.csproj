@@ -83,7 +83,6 @@
     <Compile Include="Models\CalculationsModel.cs" />
     <Compile Include="Models\CoordinateModel.cs" />
     <Compile Include="Models\PacketsModel.cs" />
-    <Compile Include="Models\PersonModel.cs" />
     <Compile Include="Models\PresetsModel.cs" />
     <Compile Include="Models\TimeModel.cs" />
     <Compile Include="SettingsManager.cs" />
