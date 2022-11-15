@@ -36,6 +36,30 @@ namespace WPFUI.Models
             return new CoordinateModel(toDegrees(lat2), toDegrees(lon2));
         }
 
+        public double ConvertAirspeedUnits(string units, double unconvertedSpeed)
+        {
+            if (units.Equals("mph"))
+            {
+                return ConvertFromMPH(unconvertedSpeed);
+            }
+            else if (units.Equals("knots"))
+            {
+                return ConvertFromKnots(unconvertedSpeed);
+            }
+            else if (units.Equals("km/h"))
+            {
+                return ConvertFromKMPH(unconvertedSpeed);
+            }
+            else if (units.Equals("ft/s"))
+            {
+                return ConvertFromFTPS(unconvertedSpeed);
+            }
+            else
+            {
+                return unconvertedSpeed;
+            }
+        }
+
         public double calculateYaw(double inputYaw, double yawROC, double updateRate)
         {
             return wrapTo180(((360.0 + inputYaw) % 360.0) + yawROC * updateRate / 1000.0);
@@ -73,29 +97,16 @@ namespace WPFUI.Models
             else return Y;
         }
 
-
-        public double ConvertAirspeedUnits(string units, double unconvertedSpeed)
+        public bool AreEqual(double a, double b)
         {
-            if (units.Equals("mph"))
-            {
-                return ConvertFromMPH(unconvertedSpeed);
-            }
-            else if (units.Equals("knots"))
-            {
-                return ConvertFromKnots(unconvertedSpeed);
-            }
-            else if (units.Equals("km/h"))
-            {
-                return ConvertFromKMPH(unconvertedSpeed);
-            }
-            else if (units.Equals("ft/s"))
-            {
-                return ConvertFromFTPS(unconvertedSpeed);
-            }
-            else
-            {
-                return unconvertedSpeed;
-            }
+            return Math.Abs(a - b) < EPSILON;
+        }
+
+        public double wrapTo180(double input)
+        {
+            input = (input + 180.0) % 360;
+            if (input < 0) input += 360;
+            return input - 180;
         }
 
         public double ConvertFromMPH(double mph)
@@ -133,17 +144,6 @@ namespace WPFUI.Models
             return rad * 180.0 / Math.PI;
         }
 
-        public bool AreEqual(double a, double b)
-        {
-            return Math.Abs(a - b) < EPSILON;
-        }
-
-        public double wrapTo180(double input)
-        {
-            input = (input + 180.0) % 360;
-            if (input < 0) input += 360;
-            return input - 180;
-        }
 
 
     }

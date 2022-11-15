@@ -12,6 +12,8 @@ namespace WPFUI
     {
         private readonly string _filePath;
 
+        //this will get moved to Models eventually
+
         public SettingsManager(string fileName)
         {
             _filePath = GetLocalFilePath(fileName);

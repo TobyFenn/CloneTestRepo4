@@ -26,6 +26,29 @@ namespace WPFUI.Models
         {
         }
 
+        public void sendPackets(double[] packetDoubles, TimeModel time)
+        {
+            data.Clear();
+            //add versions and packet size individually to the byte list
+            data.Add(payloadVersion);
+            data.Add(minPayloadVersion);
+            data.AddRange(BitConverter.GetBytes(packetSize));
+
+            foreach (double d in packetDoubles)
+            {
+                data.AddRange(BitConverter.GetBytes(d));
+            }
+
+            //add time separately to the byte list
+            data.AddRange(BitConverter.GetBytes(time.GetGPSMillis()));
+            data.AddRange(BitConverter.GetBytes(time.GetGPSWeek()));
+
+            // convert list of bytes into an array to send using UdpClient.Send();
+            byte[] packet = data.ToArray();
+
+            sendBroadcast(packet);
+        }
+
         public static void SetInterfaces(List<NetworkInterface> interfaces)
         {
             _interfaces = interfaces;
@@ -54,29 +77,6 @@ namespace WPFUI.Models
                     }
                 }
             }
-        }
-
-        public void sendPackets(double[] packetDoubles, TimeModel time)
-        {
-            data.Clear();
-            //add versions and packet size individually to the byte list
-            data.Add(payloadVersion);
-            data.Add(minPayloadVersion);
-            data.AddRange(BitConverter.GetBytes(packetSize));
-
-            foreach (double d in packetDoubles)
-            {
-                data.AddRange(BitConverter.GetBytes(d));
-            }
-
-            //add time separately to the byte list
-            data.AddRange(BitConverter.GetBytes(time.GetGPSMillis()));
-            data.AddRange(BitConverter.GetBytes(time.GetGPSWeek()));
-
-            // convert list of bytes into an array to send using UdpClient.Send();
-            byte[] packet = data.ToArray();
-
-            sendBroadcast(packet);
         }
 
         IPEndPoint target = new IPEndPoint(IPAddress.Broadcast, DESTINATION_PORT);

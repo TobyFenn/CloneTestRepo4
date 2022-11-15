@@ -131,7 +131,5 @@ namespace WPFUI.Models
             _presets.Clear();
         }
 
-
-
     }
 }

@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:cal="http://www.caliburnproject.org"
-        xmlns:local="clr-namespace:WPFUI.Views"
+        xmlns:local="clr-namespace:WPFUI.Views" xmlns:viewmodels="clr-namespace:WPFUI.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:ShellViewModel}"
         mc:Ignorable="d"
         Title="ShellView" Height="615" Width="520">
     
@@ -70,7 +70,6 @@
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Width" Value="114"/>
         </Style>
-        <!--git test change-->
         <Style TargetType="TextBox"
                x:Key="InitialPos">
             <Setter Property="Width" Value="114"/>
@@ -103,7 +102,15 @@
 
                 <StackPanel x:Name="spNics" Orientation="Horizontal" ScrollViewer.HorizontalScrollBarVisibility="Auto">
 
-                    <ItemsControl x:Name="testItemsControl" ItemsSource="{Binding Path=interfaceCheckboxes}"/>
+                    <ItemsControl x:Name="testItemsControl" ItemsSource="{Binding Path=CBList}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <CheckBox Content="{Binding Content}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
 
                     <Label Content="Broadcast to " Margin="0" Padding="0" FontSize="14" VerticalAlignment="Center"/>
                     <TextBlock HorizontalAlignment="Center" FontSize="14" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Margin="0,0,5,0">

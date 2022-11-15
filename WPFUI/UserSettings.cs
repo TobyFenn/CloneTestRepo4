@@ -8,5 +8,6 @@ namespace WPFUI
 {
     internal class UserSettings
     {
+        //Model
     }
 }

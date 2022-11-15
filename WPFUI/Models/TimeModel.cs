@@ -17,6 +17,11 @@ namespace WPFUI.Models
         {
 
         }
+        private TimeSpan GetTimeSpan()
+        {
+            DateTime curr = UseCustom ? custom : DateTime.UtcNow;
+            return curr - epoch;
+        }
 
         public uint GetGPSMillis()
         {
@@ -30,11 +35,24 @@ namespace WPFUI.Models
             return weeks;
         }
 
-        private TimeSpan GetTimeSpan()
+        public string GetNow()
         {
-            DateTime curr = UseCustom ? custom : DateTime.UtcNow;
-            return curr - epoch;
+            if (UseCustom)
+            {
+                return custom.ToString();
+            }
+            else
+            {
+                return GetUtcNow();
+            }
         }
+
+        public string GetUtcNow()
+        {
+            return DateTime.UtcNow.ToString();
+        }
+
+
 
         /*
          * update custom datetime
@@ -57,22 +75,7 @@ namespace WPFUI.Models
             custom = dateTime;
         }
 
-        public string GetNow()
-        {
-            if (UseCustom)
-            {
-                return custom.ToString();
-            }
-            else
-            {
-                return GetUtcNow();
-            }
-        }
 
-        public string GetUtcNow()
-        {
-            return DateTime.UtcNow.ToString();
-        }
 
     }
 }
